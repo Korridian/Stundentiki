@@ -1,0 +1,100 @@
+using System;
+using System.Collections.Generic;
+
+/// Базовый абстрактный класс для студента
+public abstract class Student
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public string Group { get; set; }
+
+    public Student(string name, int age, string group)
+    {
+        Name = name;
+        Age = age;
+        Group = group;
+    }
+
+    public virtual void DisplayInfo()
+    {
+        Console.WriteLine("Имя: " + Name);
+        Console.WriteLine("Возраст: " + Age);
+        Console.WriteLine("Группа: " + Group);
+    }
+}
+
+/// Класс для старосты
+public class Monitor : Student
+{
+    public Monitor(string name, int age, string group)
+        : base(name, age, group)
+    {
+    }
+
+    public override void DisplayInfo()
+    {
+        Console.WriteLine("*** Информация о старосте ***");
+        base.DisplayInfo();
+        Console.WriteLine();
+    }
+}
+
+/// Класс для обычного студента
+public class RegularStudent : Student
+{
+    public RegularStudent(string name, int age, string group)
+        : base(name, age, group)
+    {
+    }
+
+    public override void DisplayInfo()
+    {
+        Console.WriteLine("*** Информация о студенте ***");
+        base.DisplayInfo();
+        Console.WriteLine();
+    }
+}
+
+/// Класс для редактора информации
+public class Editor
+{
+    public void DisplayData(Student student)
+    {
+        student.DisplayInfo();
+    }
+
+    public void EditData(Student student, string name, int age, string group)
+    {
+        student.Name = name;
+        student.Age = age;
+        student.Group = group;
+        Console.WriteLine("Информация о студенте успешно изменена.");
+        Console.WriteLine();
+    }
+}
+
+/// Главный класс программы
+public class Program
+{
+    public static void Main()
+    {
+        Monitor monitor = new Monitor("Иван", 20, "Группа 1");
+        RegularStudent student = new RegularStudent("Петр", 19, "Группа 2");
+
+        Editor editor = new Editor();
+
+        /// Режим отображения данных
+        editor.DisplayData(monitor);
+        editor.DisplayData(student);
+
+        /// Режим редактирования данных
+        editor.EditData(monitor, "Алексей", 21, "Группа 3");
+        editor.EditData(student, "Мария", 20, "Группа 4");
+
+        /// Повторное отображение данных
+        editor.DisplayData(monitor);
+        editor.DisplayData(student);
+
+        Console.ReadLine();
+    }
+}
